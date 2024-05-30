@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clock</title>
+  <link rel="icon" href="./Assets/clock-icon.png" type="image/icon type">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-mode">
+  <header>
+    <nav>
+      <a href="#" class="logo">Digital Clock</a>
+      <ul class="nav-buttons">
+        <li><button id="modeToggle">Day Mode</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="clock-container">
+        <h1 id="day"></h1>
+        <h1 id="date"></h1>
+        <h1 id="time"></h1>
+        <button id="fullscreenToggle" class="fullscreen-btn">Full Screen</button>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; <span id="year"></span> Dixx.in</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
