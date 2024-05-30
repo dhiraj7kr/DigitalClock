@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Set the initial mode
-  setMode('dark');
+  setMode('light');
 
   // Update the year in the footer
   document.getElementById('year').textContent = new Date().getFullYear();
