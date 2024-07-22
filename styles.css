@@ -63,6 +63,7 @@ header.light-mode {
   font-size: 30px;
   cursor: pointer;
   color: inherit;
+  padding-right: 10px;
 }
 
 main {
