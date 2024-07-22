@@ -34,36 +34,27 @@ header {
   border-bottom: 1px solid #ccc; /* Optional: add a border if needed */
 }
 
+
 header.dark-mode {
-  background-color: rgba(0, 0, 0, 0.8); /* Slightly visible background in dark mode */
+  background-color: #000000;
 }
 
 header.light-mode {
-  background-color: rgba(255, 255, 255, 0.8); /* Slightly visible background in light mode */
+  background-color: #f1f1f1;
 }
 
 .logo {
   font-size: 24px; /* Adjust size as needed */
   font-weight: bold;
   color: inherit;
-}
-
-.day-date-container {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* Space between day and date */
-}
-
-.day-date-container h1 {
-  margin: 0; /* Remove default margin */
-  font-size: 1.5vw; /* Adjust font size for mobile */
+  margin-left: 20px; /* Space from the left edge */
 }
 
 .mode-toggle-icon {
   font-size: 30px;
   cursor: pointer;
   color: inherit;
-  padding-right: 10px;
+  margin-right: 20px; /* Space from the right edge */
 }
 
 main {
@@ -82,13 +73,29 @@ main {
   transform: translate(-50%, -50%);
 }
 
+.day-date-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px; /* Padding between day and date */
+}
+
+.day-date-container h1 {
+  margin: 0 10px; /* Space between day and date */
+  font-size: 3vw;
+}
+
+#day, #date {
+  font-size: 5vw;
+}
+
 #time {
-  font-size: 20vw; /* Increased font size for time */
-  margin: 2% 0;
+  font-size: 22vw; /* Increased font size for time */
+  margin: 1% 0;
 }
 
 .fullscreen-btn {
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
@@ -97,10 +104,10 @@ main {
 footer {
   text-align: center;
   padding: 1px;
-  width: 100%;
+  width: 100%; /* Ensure footer spans the full width */
   position: fixed;
   bottom: 0;
-  /*  z-index: 999; Ensure footer is visible */
+  z-index: 999; /* Ensure footer is visible */
 }
 
 footer.dark-mode {
@@ -113,31 +120,22 @@ footer.light-mode {
   color: black;
 }
 
-/* Responsive design */
-@media only screen and (max-width: 768px) {
-  header {
-    padding: 10px; /* Adjust padding as needed */
-    flex-direction: row; /* Ensure horizontal alignment */
-    flex-wrap: nowrap; /* Prevent wrapping */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-  }
-
-  .day-date-container {
-    font-size: 4vw; /* Larger font size for mobile */
-    margin-left: 10px; /* Space between day/date and logo */
-    margin-right: 10px; /* Space between day/date and mode toggle icon */
-  }
-
+/* New CSS for responsive design */
+@media only screen and (max-width: 768px) and (orientation: landscape) {
   #time {
     font-size: 25vw; /* Adjust as needed to fit the screen */
   }
 
-  /* Ensure full-screen mode on mobile */
-  body.fullscreen #time {
-    font-size: 30vw; /* Larger font size in full-screen mode */
+  footer {
+    width: 0; /* Reduce footer width to negligible */
+    padding: 0;
+    overflow: hidden;
+  }
+}
+
+@media only screen and (max-width: 768px) and (orientation: portrait) {
+  #time {
+    font-size: 30vw; /* Adjust as needed to fit the screen */
   }
 }
 
