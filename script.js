@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const footer = document.querySelector('footer');
   const header = document.querySelector('header');
   const fullscreenToggle = document.getElementById('fullscreenToggle');
-
+  
   function setMode(mode) {
     if (mode === 'dark') {
       body.classList.add('dark-mode');
@@ -13,7 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
       header.classList.remove('light-mode');
       footer.classList.add('dark-mode');
       footer.classList.remove('light-mode');
-      modeToggle.textContent = 'Day Mode';
+      modeToggle.classList.remove('fa-sun');
+      modeToggle.classList.add('fa-moon');
     } else {
       body.classList.remove('dark-mode');
       body.classList.add('light-mode');
@@ -21,7 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
       header.classList.add('light-mode');
       footer.classList.remove('dark-mode');
       footer.classList.add('light-mode');
-      modeToggle.textContent = 'Night Mode';
+      modeToggle.classList.remove('fa-moon');
+      modeToggle.classList.add('fa-sun');
     }
   }
 
@@ -60,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const now = new Date();
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const day = days[now.getDay()];
-    const date = now.toLocaleDateString();
+    const date = now.toLocaleDateString('en-GB'); // Format date as DD/MM/YYYY
     const time = now.toLocaleTimeString();
     document.getElementById('day').textContent = day;
     document.getElementById('date').textContent = date;
@@ -70,4 +72,22 @@ document.addEventListener('DOMContentLoaded', function() {
   // Update time every second
   setInterval(updateTime, 1000);
   updateTime(); // Initial call to display time immediately
+
+  // Prevent screen from going to sleep
+  if ('wakeLock' in navigator) {
+    let wakeLock = null;
+    async function requestWakeLock() {
+      try {
+        wakeLock = await navigator.wakeLock.request('screen');
+        wakeLock.addEventListener('release', () => {
+          console.log('Wake lock was released');
+          requestWakeLock();
+        });
+      } catch (err) {
+        console.error(`${err.name}, ${err.message}`);
+      }
+    }
+
+    requestWakeLock();
+  }
 });
