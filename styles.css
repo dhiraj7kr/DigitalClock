@@ -100,7 +100,7 @@ footer {
   width: 100%;
   position: fixed;
   bottom: 0;
-  z-index: 999; /* Ensure footer is visible */
+  /*  z-index: 999; Ensure footer is visible */
 }
 
 footer.dark-mode {
