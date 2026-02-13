@@ -1,89 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>iClock</title>
-
-<link rel="icon" href="assets/clock-icon.png">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<link rel="stylesheet" href="styles.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iClock</title>
+  
+  <link rel="icon" href="assets/clock-icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
-<header>
+  <header>
+    <div class="logo">iClock</div>
+    <div class="controls">
+      <button id="modeToggle" aria-label="Toggle Theme"><i class="fa-solid fa-circle-half-stroke"></i></button>
+      <button id="formatToggle" aria-label="Toggle 12/24 Hour Format">24H</button>
+      <button id="fullscreenToggle" aria-label="Toggle Fullscreen"><i class="fa-solid fa-expand"></i></button>
+    </div>
+  </header>
 
-<div class="logo">
-iClock
-</div>
+  <main>
+    <div class="clock-layout">
+      <div class="date-line">
+        <span id="day"></span>
+        <span id="date"></span>
+      </div>
+      
+      <div id="time"></div>
+      
+      <div class="weather-line">
+        <span id="location">Loading location...</span>
+        <span id="temp"></span>
+        <span id="condition"></span>
+        <span id="wind"></span>
+        <span id="aqi"></span>
+      </div>
+    </div>
+  </main>
 
-<div class="controls">
+  <footer>
+    <div class="footer-content">
+      © <span id="year"></span> iClock 
+      <a href="https://github.com/dhiraj7kr" target="_blank" rel="noopener noreferrer" class="github-link" aria-label="My GitHub">
+        <i class="fa-brands fa-github"></i>
+      </a>
+    </div>
+  </footer>
 
-<button id="modeToggle">
-<i class="fa-solid fa-circle-half-stroke"></i>
-</button>
+  <div id="locationModal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Location Required</h3>
+      <p>We couldn't detect your location automatically. Please enter your city to get local weather and AQI.</p>
+      <div class="input-group">
+        <input type="text" id="cityInput" placeholder="e.g., London, UK or New York, US" autocomplete="off">
+        <button id="submitCity">Search</button>
+      </div>
+      <p id="modalError" class="error-msg hidden">City not found. Please try again.</p>
+    </div>
+  </div>
 
-<button id="formatToggle">
-24H
-</button>
-
-<button id="fullscreenToggle">
-<i class="fa-solid fa-expand"></i>
-</button>
-
-</div>
-
-</header>
-
-<main>
-
-<div class="clock-layout">
-
-<div class="date-line">
-
-<span id="day"></span>
-
-<span id="date"></span>
-
-</div>
-
-<div id="time"></div>
-<div class="weather-line">
-
-<span id="location"></span>
-
-<span id="temp"></span>
-
-<span id="condition"></span>
-
-<span id="wind"></span>
-
-<span id="aqi"></span>
-
-</div>
-
-</div>
-
-</main>
-
-<footer>
-
-© <span id="year"></span> iClock
-
-</footer>
-
-<script src="script.js"></script>
-
+  <script src="script.js"></script>
 </body>
 </html>
-
-
