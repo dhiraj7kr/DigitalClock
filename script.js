@@ -23,7 +23,7 @@ let is24Hour = localStorage.getItem("24hour") === "true";
 formatToggle.innerText = is24Hour ? "24H" : "12H";
 
 /* ==========================================
-   CLOCK
+   CLOCK (Works Offline Automatically)
 ========================================== */
 function updateClock() {
   const now = new Date();
@@ -32,7 +32,6 @@ function updateClock() {
   dayEl.innerText = days[now.getDay()];
   dateEl.innerText = now.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
   
-  // Format the time ensuring seconds and leading zeros are handled properly
   let timeString = now.toLocaleTimeString([], { 
     hour: '2-digit', 
     minute: '2-digit', 
@@ -40,7 +39,6 @@ function updateClock() {
     hour12: !is24Hour 
   });
 
-  // Remove AM/PM from the string if we are in 12-hour mode
   if (!is24Hour) {
     timeString = timeString.replace(/\s?[APap][mM]/g, '');
   }
@@ -60,7 +58,7 @@ formatToggle.onclick = () => {
   is24Hour = !is24Hour;
   localStorage.setItem("24hour", is24Hour);
   formatToggle.innerText = is24Hour ? "24H" : "12H";
-  updateClock(); // Instantly update without waiting 1 second
+  updateClock(); 
 };
 
 fullscreenToggle.onclick = () => {
@@ -71,7 +69,6 @@ fullscreenToggle.onclick = () => {
 /* ==========================================
    WEATHER & AQI LOGIC
 ========================================== */
-
 function calculateStandardAQI(pm25) {
   let aqi, label;
   if (pm25 <= 12.0) { aqi = Math.round((50 / 12.0) * pm25); label = "Good"; }
@@ -85,6 +82,8 @@ function calculateStandardAQI(pm25) {
 }
 
 async function fetchWeatherAndAQI(lat, lon, cityName = null, country = null) {
+  if (!navigator.onLine) return; // Prevent fetch if offline
+  
   try {
     const weatherRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
     const weatherData = await weatherRes.json();
@@ -95,7 +94,7 @@ async function fetchWeatherAndAQI(lat, lon, cityName = null, country = null) {
     const pm25 = aqiData.list[0].components.pm2_5;
     const standardAqi = calculateStandardAQI(pm25);
 
-    locationEl.innerText = cityName ? `${cityName}, ${country}` : `${weatherData.name}, ${weatherData.sys.country}`;
+    locationEl.innerHTML = cityName ? `${cityName}, ${country}` : `${weatherData.name}, ${weatherData.sys.country}`;
     tempEl.innerText = Math.round(weatherData.main.temp) + "°C";
     conditionEl.innerText = weatherData.weather[0].main;
     windEl.innerText = "Wind " + Math.round(weatherData.wind.speed * 3.6) + " km/h"; 
@@ -108,9 +107,32 @@ async function fetchWeatherAndAQI(lat, lon, cityName = null, country = null) {
 }
 
 /* ==========================================
-   LOCATION HANDLING
+   LOCATION & NETWORK HANDLING
 ========================================== */
+function handleOfflineState() {
+  if (!navigator.onLine) {
+    locationEl.innerHTML = '<i class="fa-solid fa-wifi" style="text-decoration: line-through; margin-right: 8px;"></i> Offline - Time is Current';
+    tempEl.innerText = "";
+    conditionEl.innerText = "";
+    windEl.innerText = "";
+    aqiEl.innerText = "";
+    modal.classList.add("hidden"); // Hide location modal if offline
+  } else {
+    locationEl.innerText = "Reconnecting...";
+    requestLocation();
+  }
+}
+
+// Listen for network changes
+window.addEventListener('offline', handleOfflineState);
+window.addEventListener('online', handleOfflineState);
+
 function requestLocation() {
+  if (!navigator.onLine) {
+    handleOfflineState();
+    return;
+  }
+
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (pos) => fetchWeatherAndAQI(pos.coords.latitude, pos.coords.longitude),
@@ -125,6 +147,8 @@ function requestLocation() {
 }
 
 submitCity.onclick = async () => {
+  if (!navigator.onLine) return; // Prevent search if offline
+  
   const query = cityInput.value.trim();
   if (!query) return;
   
@@ -150,7 +174,8 @@ cityInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter") submitCity.click();
 });
 
-requestLocation();
+// Initialize
+handleOfflineState(); // Check immediately on load
 
 /* ==========================================
    MISC
