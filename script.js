@@ -1,93 +1,153 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const modeToggle = document.getElementById('modeToggle');
-  const body = document.body;
-  const footer = document.querySelector('footer');
-  const header = document.querySelector('header');
-  const fullscreenToggle = document.getElementById('fullscreenToggle');
-  
-  function setMode(mode) {
-    if (mode === 'dark') {
-      body.classList.add('dark-mode');
-      body.classList.remove('light-mode');
-      header.classList.add('dark-mode');
-      header.classList.remove('light-mode');
-      footer.classList.add('dark-mode');
-      footer.classList.remove('light-mode');
-      modeToggle.classList.remove('fa-sun');
-      modeToggle.classList.add('fa-moon');
-    } else {
-      body.classList.remove('dark-mode');
-      body.classList.add('light-mode');
-      header.classList.remove('dark-mode');
-      header.classList.add('light-mode');
-      footer.classList.remove('dark-mode');
-      footer.classList.add('light-mode');
-      modeToggle.classList.remove('fa-moon');
-      modeToggle.classList.add('fa-sun');
-    }
-  }
+const API_KEY = "YOUR_API_KEY";
 
-  modeToggle.addEventListener('click', function() {
-    if (body.classList.contains('dark-mode')) {
-      setMode('light');
-    } else {
-      setMode('dark');
-    }
-  });
+const body = document.body;
 
-  fullscreenToggle.addEventListener('click', function() {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().then(() => {
-        header.style.display = 'none';
-        footer.style.display = 'none';
-        fullscreenToggle.textContent = 'Exit Full Screen';
-      });
-    } else {
-      document.exitFullscreen().then(() => {
-        header.style.display = 'flex';
-        footer.style.display = 'block';
-        fullscreenToggle.textContent = 'Full Screen';
-      });
-    }
-  });
+const modeToggle = document.getElementById("modeToggle");
 
-  // Set the initial mode
-  setMode('light');
+const fullscreenBtn = document.getElementById("fullscreenToggle");
 
-  // Update the year in the footer
-  document.getElementById('year').textContent = new Date().getFullYear();
+const formatToggle = document.getElementById("formatToggle");
 
-  // Function to update time, date, and day
-  function updateTime() {
-    const now = new Date();
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const day = days[now.getDay()];
-    const date = now.toLocaleDateString('en-GB'); // Format date as DD/MM/YYYY
-    const time = now.toLocaleTimeString();
-    document.getElementById('day').textContent = day;
-    document.getElementById('date').textContent = date;
-    document.getElementById('time').textContent = time;
-  }
+let is24Hour = true;
 
-  // Update time every second
-  setInterval(updateTime, 1000);
-  updateTime(); // Initial call to display time immediately
+/* Dark / Light Mode */
 
-  // Prevent screen from going to sleep
-  if ('wakeLock' in navigator) {
-    let wakeLock = null;
-    async function requestWakeLock() {
-      try {
-        wakeLock = await navigator.wakeLock.request('screen');
-        wakeLock.addEventListener('release', () => {
-          console.log('Wake lock was released');
-          requestWakeLock();
-        });
-      } catch (err) {
-        console.error(`${err.name}, ${err.message}`);
-      }
-    }
+modeToggle.onclick = () => {
 
-    requestWakeLock();
-  }
+body.classList.toggle("dark-mode");
+
+body.classList.toggle("light-mode");
+
+modeToggle.classList.toggle("fa-sun");
+
+modeToggle.classList.toggle("fa-moon");
+
+};
+
+/* Fullscreen */
+
+fullscreenBtn.onclick = () => {
+
+if(!document.fullscreenElement){
+
+document.documentElement.requestFullscreen();
+
+}else{
+
+document.exitFullscreen();
+
+}
+
+};
+
+/* 12 / 24 Hour Toggle */
+
+formatToggle.onclick = () => {
+
+is24Hour = !is24Hour;
+
+formatToggle.innerText = is24Hour ? "24H":"12H";
+
+};
+
+/* Clock */
+
+function updateClock(){
+
+const now = new Date();
+
+const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+document.getElementById("day").innerText = days[now.getDay()];
+
+document.getElementById("date").innerText = now.toLocaleDateString("en-GB");
+
+document.getElementById("time").innerText = now.toLocaleTimeString([],{
+
+hour12:!is24Hour
+
 });
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+/* Weather */
+
+navigator.geolocation.getCurrentPosition(async position => {
+
+const lat = position.coords.latitude;
+
+const lon = position.coords.longitude;
+
+const weatherRes = await fetch(
+
+`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+
+);
+
+const weather = await weatherRes.json();
+
+document.getElementById("location").innerText =
+
+weather.name + ", " + weather.sys.country;
+
+document.getElementById("temp").innerText =
+
+"🌡 " + weather.main.temp + "°C";
+
+document.getElementById("condition").innerText =
+
+"☁ " + weather.weather[0].main;
+
+document.getElementById("wind").innerText =
+
+"💨 Wind " + weather.wind.speed + " km/h";
+
+/* AQI */
+
+const aqiRes = await fetch(
+
+`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+
+);
+
+const aqiData = await aqiRes.json();
+
+const aqi = aqiData.list[0].main.aqi;
+
+const quality = ["Good","Fair","Moderate","Poor","Very Poor"];
+
+document.getElementById("aqi").innerText =
+
+"AQI " + aqi + " (" + quality[aqi-1] + ")";
+
+});
+
+/* Footer Year */
+
+document.getElementById("year").innerText = new Date().getFullYear();
+
+/* Wake Lock */
+
+if("wakeLock" in navigator){
+
+let wakeLock;
+
+navigator.wakeLock.request("screen").then(lock=>{
+
+wakeLock = lock;
+
+});
+
+}
+
+/* PWA Service Worker */
+
+if("serviceWorker" in navigator){
+
+navigator.serviceWorker.register("service-worker.js");
+
+}
