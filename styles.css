@@ -1,146 +1,173 @@
 body {
-  font-family: sans-serif;
-  margin: 0;
-  padding: 0;
-  background-size: cover;
-  background-repeat: no-repeat;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  position: relative;
+
+font-family: Inter, sans-serif;
+
+margin: 0;
+
+height: 100vh;
+
+display: flex;
+
+flex-direction: column;
+
+color: white;
+
+transition: 0.3s;
+
 }
+
+/* Dark Mode */
 
 body.dark-mode {
-  background-color: #000000;
-  color: white;
+
+background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+
 }
+
+/* Light Mode */
 
 body.light-mode {
-  background-color: white;
-  color: black;
+
+background: linear-gradient(135deg,#f5f7fa,#c3cfe2);
+
+color: black;
+
 }
+
+/* Header */
 
 header {
-  padding: 10px 20px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: transparent; /* Make background transparent */
-  border-bottom: 1px solid #ccc; /* Optional: add a border if needed */
+
+position: fixed;
+
+top: 0;
+
+width: 100%;
+
+display: flex;
+
+justify-content: space-between;
+
+padding: 15px 30px;
+
+backdrop-filter: blur(10px);
+
+background: rgba(0,0,0,0.2);
+
 }
 
+.controls {
 
-header.dark-mode {
-  background-color: #000000;
+display: flex;
+
+gap: 15px;
+
+align-items: center;
+
 }
 
-header.light-mode {
-  background-color: #f1f1f1;
+header i, button {
+
+cursor: pointer;
+
+font-size: 20px;
+
+background: none;
+
+border: none;
+
+color: inherit;
+
 }
 
-.logo {
-  font-size: 24px; /* Adjust size as needed */
-  font-weight: bold;
-  color: inherit;
-  margin-left: 20px; /* Space from the left edge */
-}
-
-.mode-toggle-icon {
-  font-size: 30px;
-  cursor: pointer;
-  color: inherit;
-  margin-right: 20px; /* Space from the right edge */
-}
-
-main {
-  text-align: center;
-  padding: 5% 10%;
-  flex: 1;
-}
+/* Clock Container */
 
 .clock-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+
+position: absolute;
+
+top: 50%;
+
+left: 50%;
+
+transform: translate(-50%,-50%);
+
+text-align: center;
+
+padding: 40px;
+
+border-radius: 20px;
+
+background: rgba(255,255,255,0.1);
+
+backdrop-filter: blur(20px);
+
+box-shadow: 0 0 40px rgba(0,0,0,0.3);
+
 }
 
-.day-date-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 10px; /* Padding between day and date */
-}
+.day-date {
 
-.day-date-container h1 {
-  margin: 0 10px; /* Space between day and date */
-  font-size: 3vw;
-}
+font-size: 40px;
 
-#day, #date {
-  font-size: 5vw;
 }
 
 #time {
-  font-size: 22vw; /* Increased font size for time */
-  margin: 1% 0;
+
+font-size: 150px;
+
+font-weight: 800;
+
 }
 
-.fullscreen-btn {
-  margin-top: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
+/* Weather */
+
+.weather {
+
+margin-top: 20px;
+
+font-size: 22px;
+
 }
+
+/* Footer */
 
 footer {
-  text-align: center;
-  padding: 1px;
-  width: 100%; /* Ensure footer spans the full width */
-  position: fixed;
-  bottom: 0;
-  z-index: 999; /* Ensure footer is visible */
+
+position: fixed;
+
+bottom: 0;
+
+width: 100%;
+
+text-align: center;
+
+padding: 10px;
+
+background: rgba(0,0,0,0.2);
+
 }
 
-footer.dark-mode {
-  background-color: #000000;
-  color: white;
+/* Mobile */
+
+@media(max-width:768px){
+
+#time{
+
+font-size: 80px;
+
 }
 
-footer.light-mode {
-  background-color: #f1f1f1;
-  color: black;
+.day-date{
+
+font-size: 25px;
+
 }
 
-/* New CSS for responsive design */
-@media only screen and (max-width: 768px) and (orientation: landscape) {
-  #time {
-    font-size: 25vw; /* Adjust as needed to fit the screen */
-  }
+.weather{
 
-  footer {
-    width: 0; /* Reduce footer width to negligible */
-    padding: 0;
-    overflow: hidden;
-  }
+font-size: 18px;
+
 }
 
-@media only screen and (max-width: 768px) and (orientation: portrait) {
-  #time {
-    font-size: 30vw; /* Adjust as needed to fit the screen */
-  }
-}
-
-@media only screen and (min-width: 769px) {
-  #time {
-    font-size: 15vw; /* Adjust as needed to fit the screen */
-  }
 }
