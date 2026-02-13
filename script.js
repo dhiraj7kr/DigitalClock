@@ -1,4 +1,4 @@
-const API_KEY = "YOUR_API_KEY";
+const API_KEY = "3594d5052720afa49440b3d17c10ce28";
 
 const body = document.body;
 
@@ -151,3 +151,4 @@ if("serviceWorker" in navigator){
 navigator.serviceWorker.register("service-worker.js");
 
 }
+
