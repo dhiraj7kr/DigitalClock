@@ -1,172 +1,215 @@
+:root {
+
+--glass-bg: rgba(255,255,255,0.08);
+--glass-border: rgba(255,255,255,0.15);
+
+}
+
 body {
 
-font-family: Inter, sans-serif;
-
 margin: 0;
-
+font-family: 'Inter', sans-serif;
 height: 100vh;
-
-display: flex;
-
-flex-direction: column;
-
 color: white;
 
-transition: 0.3s;
+background:
+linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+
+display: flex;
+flex-direction: column;
+
+transition: all 0.4s ease;
 
 }
 
-/* Dark Mode */
+/* LIGHT MODE */
 
-body.dark-mode {
-
-background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-
-}
-
-/* Light Mode */
-
-body.light-mode {
-
-background: linear-gradient(135deg,#f5f7fa,#c3cfe2);
+body.light {
 
 color: black;
 
+background:
+linear-gradient(135deg,#f5f7fa,#c3cfe2);
+
 }
 
-/* Header */
+/* HEADER */
 
 header {
 
-position: fixed;
-
-top: 0;
-
-width: 100%;
-
 display: flex;
-
 justify-content: space-between;
+align-items: center;
 
 padding: 15px 30px;
 
-backdrop-filter: blur(10px);
+background: var(--glass-bg);
 
-background: rgba(0,0,0,0.2);
+backdrop-filter: blur(20px);
+
+border-bottom: 1px solid var(--glass-border);
+
+}
+
+.logo {
+
+font-size: 22px;
+font-weight: 700;
+
+display: flex;
+gap: 10px;
+align-items: center;
 
 }
 
 .controls {
 
 display: flex;
+gap: 12px;
 
-gap: 15px;
+}
+
+button {
+
+border: none;
+
+background: var(--glass-bg);
+
+color: inherit;
+
+padding: 10px 14px;
+
+border-radius: 10px;
+
+cursor: pointer;
+
+font-size: 16px;
+
+transition: all 0.3s ease;
+
+}
+
+button:hover {
+
+transform: scale(1.08);
+
+background: rgba(255,255,255,0.2);
+
+}
+
+/* MAIN */
+
+main {
+
+flex: 1;
+
+display: flex;
+
+justify-content: center;
 
 align-items: center;
 
 }
 
-header i, button {
+/* CLOCK CARD */
 
-cursor: pointer;
+.clock-card {
 
-font-size: 20px;
+background: var(--glass-bg);
 
-background: none;
-
-border: none;
-
-color: inherit;
-
-}
-
-/* Clock Container */
-
-.clock-container {
-
-position: absolute;
-
-top: 50%;
-
-left: 50%;
-
-transform: translate(-50%,-50%);
-
-text-align: center;
-
-padding: 40px;
+padding: 40px 60px;
 
 border-radius: 20px;
 
-background: rgba(255,255,255,0.1);
+backdrop-filter: blur(30px);
 
-backdrop-filter: blur(20px);
+border: 1px solid var(--glass-border);
 
-box-shadow: 0 0 40px rgba(0,0,0,0.3);
+box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+
+text-align: center;
 
 }
 
-.day-date {
+/* DATE */
 
-font-size: 40px;
+.date-section {
+
+font-size: 28px;
+
+opacity: 0.9;
+
+}
+
+/* TIME */
+
+#time {
+
+font-size: 120px;
+
+font-weight: 800;
+
+margin: 10px 0;
+
+}
+
+/* WEATHER */
+
+.weather-section {
+
+margin-top: 20px;
+
+font-size: 18px;
+
+}
+
+.weather-row {
+
+display: flex;
+
+gap: 10px;
+
+align-items: center;
+
+justify-content: center;
+
+margin: 6px 0;
+
+}
+
+/* FOOTER */
+
+footer {
+
+text-align: center;
+
+padding: 12px;
+
+background: var(--glass-bg);
+
+border-top: 1px solid var(--glass-border);
+
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.clock-card {
+
+padding: 20px;
 
 }
 
 #time {
 
-font-size: 150px;
-
-font-weight: 800;
+font-size: 60px;
 
 }
 
-/* Weather */
+.date-section {
 
-.weather {
-
-margin-top: 20px;
-
-font-size: 22px;
-
-}
-
-/* Footer */
-
-footer {
-
-position: fixed;
-
-bottom: 0;
-
-width: 100%;
-
-text-align: center;
-
-padding: 10px;
-
-background: rgba(0,0,0,0.2);
-
-}
-
-/* Mobile */
-
-@media(max-width:768px){
-
-#time{
-
-font-size: 80px;
-
-}
-
-.day-date{
-
-font-size: 25px;
-
-}
-
-.weather{
-
-font-size: 18px;
+font-size: 20px;
 
 }
 
