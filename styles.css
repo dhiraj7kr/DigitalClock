@@ -58,6 +58,7 @@ header {
   font-size: clamp(1.2rem, 2vw, 2.5rem);
   font-weight: 800;
   letter-spacing: -1px;
+  user-select: none;
 }
 
 .controls { display: flex; gap: clamp(0.5rem, 1vw, 1.5rem); }
@@ -98,7 +99,6 @@ main {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  /* Balanced vertical spacing between date, time, and weather */
   gap: clamp(1rem, 3vh, 3.5rem); 
   width: 100%;
 }
@@ -120,6 +120,17 @@ main {
   letter-spacing: -0.04em;
   font-variant-numeric: tabular-nums; 
   text-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+  user-select: none;
+}
+
+/* Blinking Colon Animation */
+.blink {
+  animation: blinker 1s step-start infinite;
+  opacity: 1;
+}
+
+@keyframes blinker {
+  50% { opacity: 0; }
 }
 
 /* ==========================================================================
@@ -143,7 +154,12 @@ main {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.weather-line span { display: flex; align-items: center; }
+.weather-line span { 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; /* Space between icons and text */
+}
+
 .weather-line span:empty { display: none; }
 
 .weather-line span:not(:last-child)::after {
@@ -151,6 +167,29 @@ main {
   color: var(--subtext-color);
   margin-left: clamp(1rem, 2vw, 3rem);
   opacity: 0.4;
+}
+
+/* Clickable Location Styles */
+#location {
+  cursor: pointer;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 6px;
+}
+
+#location:hover {
+  color: var(--text-color);
+  text-decoration-color: var(--subtext-color);
+}
+
+/* Colored AQI Status Dot */
+.aqi-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 8px currentColor;
 }
 
 /* ==========================================================================
@@ -169,10 +208,7 @@ main {
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.modal.hidden {
-  opacity: 0;
-  visibility: hidden;
-}
+.modal.hidden { opacity: 0; visibility: hidden; }
 
 .modal-content {
   background: var(--bg-color);
@@ -218,6 +254,16 @@ main {
 .input-group button:hover { opacity: 0.8; }
 .error-msg { color: #ff5e5e; margin-top: 1rem; font-size: 0.85rem; }
 
+.close-btn {
+  margin-top: 1rem;
+  background: transparent;
+  color: var(--subtext-color);
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.close-btn:hover { color: var(--text-color); text-decoration: underline; }
+
 /* ==========================================================================
    7. FOOTER & GITHUB ICON
    ========================================================================== */
@@ -232,11 +278,7 @@ footer {
   letter-spacing: 1px;
 }
 
-.footer-content {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+.footer-content { display: flex; align-items: center; gap: 12px; }
 
 .github-link {
   color: var(--subtext-color);
@@ -247,10 +289,7 @@ footer {
   transition: all 0.2s ease;
 }
 
-.github-link:hover {
-  color: var(--text-color);
-  transform: scale(1.15) translateY(-2px);
-}
+.github-link:hover { color: var(--text-color); transform: scale(1.15) translateY(-2px); }
 
 /* ==========================================================================
    8. MEDIA QUERIES (Mobile)
