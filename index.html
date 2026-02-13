@@ -5,14 +5,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>iClock • Professional Clock Dashboard</title>
+<title>iClock</title>
 
 <link rel="icon" href="assets/clock-icon.png">
 
-<!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-<!-- Icons -->
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -25,21 +23,20 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 <header>
 
 <div class="logo">
-<i class="fa-solid fa-clock"></i>
 iClock
 </div>
 
 <div class="controls">
 
-<button id="modeToggle" title="Toggle theme">
-<i class="fa-solid fa-moon"></i>
+<button id="modeToggle">
+<i class="fa-solid fa-circle-half-stroke"></i>
 </button>
 
-<button id="formatToggle" title="Toggle 12/24 hour">
+<button id="formatToggle">
 24H
 </button>
 
-<button id="fullscreenToggle" title="Fullscreen">
+<button id="fullscreenToggle">
 <i class="fa-solid fa-expand"></i>
 </button>
 
@@ -49,44 +46,29 @@ iClock
 
 <main>
 
-<div class="clock-card">
+<div class="clock-layout">
 
-<div class="date-section">
+<div class="date-line">
 
-<div id="day"></div>
+<span id="day"></span>
 
-<div id="date"></div>
+<span id="date"></span>
 
 </div>
 
 <div id="time"></div>
 
-<div class="weather-section">
+<div class="weather-line">
 
-<div class="weather-row">
-<i class="fa-solid fa-location-dot"></i>
-<span id="location">Loading...</span>
-</div>
+<span id="location"></span>
 
-<div class="weather-row">
-<i class="fa-solid fa-temperature-half"></i>
 <span id="temp"></span>
-</div>
 
-<div class="weather-row">
-<i class="fa-solid fa-cloud"></i>
 <span id="condition"></span>
-</div>
 
-<div class="weather-row">
-<i class="fa-solid fa-wind"></i>
 <span id="wind"></span>
-</div>
 
-<div class="weather-row">
-<i class="fa-solid fa-smog"></i>
 <span id="aqi"></span>
-</div>
 
 </div>
 
@@ -96,7 +78,7 @@ iClock
 
 <footer>
 
-© <span id="year"></span> iClock • Professional Edition
+© <span id="year"></span> iClock
 
 </footer>
 
