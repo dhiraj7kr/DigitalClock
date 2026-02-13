@@ -1,71 +1,55 @@
 const API_KEY = "3594d5052720afa49440b3d17c10ce28";
 
-const body = document.body;
+/* ELEMENTS */
+
+const timeEl = document.getElementById("time");
+const dayEl = document.getElementById("day");
+const dateEl = document.getElementById("date");
+
+const locationEl = document.getElementById("location");
+const tempEl = document.getElementById("temp");
+const conditionEl = document.getElementById("condition");
+const windEl = document.getElementById("wind");
+const aqiEl = document.getElementById("aqi");
 
 const modeToggle = document.getElementById("modeToggle");
-
-const fullscreenBtn = document.getElementById("fullscreenToggle");
-
 const formatToggle = document.getElementById("formatToggle");
+const fullscreenToggle = document.getElementById("fullscreenToggle");
 
-let is24Hour = true;
+/* SETTINGS */
 
-/* Dark / Light Mode */
+let is24Hour = localStorage.getItem("24hour") === "true";
 
-modeToggle.onclick = () => {
+/* APPLY SAVED SETTINGS */
 
-body.classList.toggle("dark-mode");
+formatToggle.innerText = is24Hour ? "24H" : "12H";
 
-body.classList.toggle("light-mode");
+if(localStorage.getItem("theme")==="light")
+document.body.classList.add("light");
 
-modeToggle.classList.toggle("fa-sun");
-
-modeToggle.classList.toggle("fa-moon");
-
-};
-
-/* Fullscreen */
-
-fullscreenBtn.onclick = () => {
-
-if(!document.fullscreenElement){
-
-document.documentElement.requestFullscreen();
-
-}else{
-
-document.exitFullscreen();
-
-}
-
-};
-
-/* 12 / 24 Hour Toggle */
-
-formatToggle.onclick = () => {
-
-is24Hour = !is24Hour;
-
-formatToggle.innerText = is24Hour ? "24H":"12H";
-
-};
-
-/* Clock */
+/* CLOCK */
 
 function updateClock(){
 
 const now = new Date();
 
-const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const days = [
+"Sunday","Monday","Tuesday","Wednesday",
+"Thursday","Friday","Saturday"
+];
 
-document.getElementById("day").innerText = days[now.getDay()];
+dayEl.innerText = days[now.getDay()];
 
-document.getElementById("date").innerText = now.toLocaleDateString("en-GB");
+dateEl.innerText =
+now.toLocaleDateString("en-GB",{
+day:"numeric",
+month:"long",
+year:"numeric"
+});
 
-document.getElementById("time").innerText = now.toLocaleTimeString([],{
-
+timeEl.innerText =
+now.toLocaleTimeString([],{
 hour12:!is24Hour
-
 });
 
 }
@@ -74,81 +58,102 @@ setInterval(updateClock,1000);
 
 updateClock();
 
-/* Weather */
+/* THEME */
 
-navigator.geolocation.getCurrentPosition(async position => {
+modeToggle.onclick=()=>{
 
-const lat = position.coords.latitude;
+document.body.classList.toggle("light");
 
-const lon = position.coords.longitude;
-
-const weatherRes = await fetch(
-
-`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
-
+localStorage.setItem(
+"theme",
+document.body.classList.contains("light")
+?"light":"dark"
 );
 
-const weather = await weatherRes.json();
+};
 
-document.getElementById("location").innerText =
+/* FORMAT */
 
-weather.name + ", " + weather.sys.country;
+formatToggle.onclick=()=>{
 
-document.getElementById("temp").innerText =
+is24Hour=!is24Hour;
 
-"🌡 " + weather.main.temp + "°C";
+localStorage.setItem("24hour",is24Hour);
 
-document.getElementById("condition").innerText =
+formatToggle.innerText=is24Hour?"24H":"12H";
 
-"☁ " + weather.weather[0].main;
+};
 
-document.getElementById("wind").innerText =
+/* FULLSCREEN */
 
-"💨 Wind " + weather.wind.speed + " km/h";
+fullscreenToggle.onclick=()=>{
+
+if(!document.fullscreenElement)
+document.documentElement.requestFullscreen();
+else
+document.exitFullscreen();
+
+};
+
+/* WEATHER */
+
+navigator.geolocation.getCurrentPosition(async pos=>{
+
+const lat=pos.coords.latitude;
+const lon=pos.coords.longitude;
+
+/* WEATHER */
+
+const res=await fetch(
+`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+);
+
+const data=await res.json();
+
+locationEl.innerText=
+`${data.name}, ${data.sys.country}`;
+
+tempEl.innerText=
+`${data.main.temp} °C`;
+
+conditionEl.innerText=
+data.weather[0].main;
+
+windEl.innerText=
+`${data.wind.speed} km/h`;
 
 /* AQI */
 
-const aqiRes = await fetch(
-
+const aqiRes=await fetch(
 `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
-
 );
 
-const aqiData = await aqiRes.json();
+const aqiData=await aqiRes.json();
 
-const aqi = aqiData.list[0].main.aqi;
+const aqi=aqiData.list[0].main.aqi;
 
-const quality = ["Good","Fair","Moderate","Poor","Very Poor"];
+const quality=[
+"Good",
+"Fair",
+"Moderate",
+"Poor",
+"Very Poor"
+];
 
-document.getElementById("aqi").innerText =
-
-"AQI " + aqi + " (" + quality[aqi-1] + ")";
+aqiEl.innerText=
+`${aqi} (${quality[aqi-1]})`;
 
 });
 
-/* Footer Year */
+/* FOOTER YEAR */
 
-document.getElementById("year").innerText = new Date().getFullYear();
+document.getElementById("year").innerText=
+new Date().getFullYear();
 
-/* Wake Lock */
+/* PREVENT SCREEN SLEEP */
 
 if("wakeLock" in navigator){
 
-let wakeLock;
-
-navigator.wakeLock.request("screen").then(lock=>{
-
-wakeLock = lock;
-
-});
+navigator.wakeLock.request("screen");
 
 }
-
-/* PWA Service Worker */
-
-if("serviceWorker" in navigator){
-
-navigator.serviceWorker.register("service-worker.js");
-
-}
-
