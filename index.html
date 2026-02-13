@@ -40,7 +40,13 @@
       
       <div id="time"></div>
 
-      <div id="world-clocks" class="world-clocks"></div>
+      <div id="world-clocks" class="world-clocks">
+        <span id="wc-0" class="world-clock-item" title="Click to change timezone"></span>
+        <span class="dot-separator">•</span>
+        <span id="wc-1" class="world-clock-item" title="Click to change timezone"></span>
+        <span class="dot-separator">•</span>
+        <span id="wc-2" class="world-clock-item" title="Click to change timezone"></span>
+      </div>
       
       <div class="weather-line">
         <span id="location" title="Click to change location">Loading location...</span>
@@ -78,6 +84,18 @@
       </div>
       <p id="modalError" class="error-msg hidden">City not found. Please try again.</p>
       <button id="closeModal" class="close-btn hidden">Cancel</button>
+    </div>
+  </div>
+
+  <div id="tzModal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Select Timezone</h3>
+      <p>Choose a timezone to display on your dashboard.</p>
+      <div class="input-group">
+        <select id="tzSelect" class="tz-dropdown"></select>
+        <button id="submitTz">Save</button>
+      </div>
+      <button id="closeTzModal" class="close-btn">Cancel</button>
     </div>
   </div>
 
