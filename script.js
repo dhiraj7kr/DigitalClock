@@ -1,7 +1,5 @@
 const API_KEY = "3594d5052720afa49440b3d17c10ce28";
 
-/* ELEMENTS */
-
 const timeEl = document.getElementById("time");
 const dayEl = document.getElementById("day");
 const dateEl = document.getElementById("date");
@@ -16,16 +14,9 @@ const modeToggle = document.getElementById("modeToggle");
 const formatToggle = document.getElementById("formatToggle");
 const fullscreenToggle = document.getElementById("fullscreenToggle");
 
-/* SETTINGS */
+let is24Hour = localStorage.getItem("24hour")==="true";
 
-let is24Hour = localStorage.getItem("24hour") === "true";
-
-/* APPLY SAVED SETTINGS */
-
-formatToggle.innerText = is24Hour ? "24H" : "12H";
-
-if(localStorage.getItem("theme")==="light")
-document.body.classList.add("light");
+formatToggle.innerText = is24Hour ? "24H":"12H";
 
 /* CLOCK */
 
@@ -34,8 +25,8 @@ function updateClock(){
 const now = new Date();
 
 const days = [
-"Sunday","Monday","Tuesday","Wednesday",
-"Thursday","Friday","Saturday"
+"Sunday","Monday","Tuesday",
+"Wednesday","Thursday","Friday","Saturday"
 ];
 
 dayEl.innerText = days[now.getDay()];
@@ -63,12 +54,6 @@ updateClock();
 modeToggle.onclick=()=>{
 
 document.body.classList.toggle("light");
-
-localStorage.setItem(
-"theme",
-document.body.classList.contains("light")
-?"light":"dark"
-);
 
 };
 
@@ -102,27 +87,23 @@ navigator.geolocation.getCurrentPosition(async pos=>{
 const lat=pos.coords.latitude;
 const lon=pos.coords.longitude;
 
-/* WEATHER */
-
 const res=await fetch(
 `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
 );
 
 const data=await res.json();
 
-locationEl.innerText=
-`${data.name}, ${data.sys.country}`;
+locationEl.innerText =
+data.name + ", " + data.sys.country;
 
-tempEl.innerText=
-`${data.main.temp} °C`;
+tempEl.innerText =
+data.main.temp + "°C";
 
-conditionEl.innerText=
+conditionEl.innerText =
 data.weather[0].main;
 
-windEl.innerText=
-`${data.wind.speed} km/h`;
-
-/* AQI */
+windEl.innerText =
+"Wind " + data.wind.speed + " km/h";
 
 const aqiRes=await fetch(
 `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
@@ -140,20 +121,17 @@ const quality=[
 "Very Poor"
 ];
 
-aqiEl.innerText=
-`${aqi} (${quality[aqi-1]})`;
+aqiEl.innerText =
+"AQI " + aqi + " " + quality[aqi-1];
 
 });
 
-/* FOOTER YEAR */
+/* FOOTER */
 
-document.getElementById("year").innerText=
+document.getElementById("year").innerText =
 new Date().getFullYear();
 
-/* PREVENT SCREEN SLEEP */
+/* WAKE LOCK */
 
-if("wakeLock" in navigator){
-
+if("wakeLock" in navigator)
 navigator.wakeLock.request("screen");
-
-}
