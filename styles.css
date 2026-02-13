@@ -1,171 +1,211 @@
-body {
-
-margin: 0;
-
-font-family: 'Inter', sans-serif;
-
-background: black;
-
-color: white;
-
-height: 100vh;
-
-display: flex;
-
-flex-direction: column;
-
+/* ==========================================================================
+   1. CSS VARIABLES (Premium Color Palette)
+   ========================================================================== */
+:root {
+  /* Dark Mode (Default) - Deep OLED Black */
+  --bg-color: #000000;
+  --text-color: #ffffff;
+  --subtext-color: #888888;
+  --accent-color: #cccccc;
+  
+  /* Glassmorphism UI */
+  --glass-bg: rgba(255, 255, 255, 0.07);
+  --glass-hover: rgba(255, 255, 255, 0.15);
+  --border-color: rgba(255, 255, 255, 0.1);
+  
+  --transition-speed: 0.4s;
 }
 
-/* LIGHT MODE */
-
+/* Light Mode Theme - Matches your JS toggle: classList.toggle("light") */
 body.light {
-
-background: white;
-
-color: black;
-
+  /* Clean, crisp off-white for daytime reading */
+  --bg-color: #f4f5f7;
+  --text-color: #0a0a0a;
+  --subtext-color: #666666;
+  --accent-color: #333333;
+  
+  --glass-bg: rgba(0, 0, 0, 0.05);
+  --glass-hover: rgba(0, 0, 0, 0.1);
+  --border-color: rgba(0, 0, 0, 0.08);
 }
 
-/* HEADER */
+/* ==========================================================================
+   2. RESET & BASE
+   ========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow: hidden; /* Prevents scrollbars on TVs and monitors */
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+/* ==========================================================================
+   3. HEADER & CONTROLS
+   ========================================================================== */
 header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: clamp(1rem, 3vw, 2.5rem); /* Scales padding for TVs */
+  width: 100%;
+}
 
-display: flex;
-
-justify-content: space-between;
-
-padding: 20px 40px;
-
-font-size: 18px;
-
-border-bottom: 1px solid currentColor;
-
+.logo {
+  font-size: clamp(1.2rem, 2vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -1px;
 }
 
 .controls {
-
-display: flex;
-
-gap: 15px;
-
+  display: flex;
+  gap: clamp(0.5rem, 1vw, 1.5rem);
 }
 
-button {
-
-background: none;
-
-border: 1px solid currentColor;
-
-color: inherit;
-
-padding: 6px 12px;
-
-cursor: pointer;
-
-font-size: 14px;
-
+.controls button {
+  background: var(--glass-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: clamp(0.5rem, 1vw, 1rem) clamp(1rem, 2vw, 2rem);
+  border-radius: 50px; /* Pill shaped buttons */
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: clamp(0.9rem, 1.2vw, 1.5rem);
+  min-width: clamp(50px, 5vw, 80px); /* Prevents button jitter when text changes */
+  transition: all 0.2s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
-/* MAIN CENTER */
+.controls button:hover {
+  background: var(--glass-hover);
+  transform: scale(1.05);
+}
 
+.controls button:active {
+  transform: scale(0.95);
+}
+
+/* ==========================================================================
+   4. MAIN CLOCK AREA (Fluid Typography)
+   ========================================================================== */
 main {
-
-flex: 1;
-
-display: flex;
-
-justify-content: center;
-
-align-items: center;
-
-text-align: center;
-
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 2vw;
+  width: 100%;
 }
-
-/* CLOCK LAYOUT */
 
 .clock-layout {
-
-display: flex;
-
-flex-direction: column;
-
-align-items: center;
-
-gap: 10px;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(0.5rem, 2vh, 3rem);
+  width: 100%;
 }
-
-/* DATE */
 
 .date-line {
-
-font-size: 40px;
-
-letter-spacing: 2px;
-
+  font-size: clamp(1rem, 3vw, 3.5rem);
+  color: var(--subtext-color);
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: clamp(2px, 0.5vw, 6px);
+  display: flex;
+  gap: 1vw;
 }
-
-/* TIME */
 
 #time {
-
-font-size: 180px;
-
-font-weight: 800;
-
-letter-spacing: 5px;
-
+  /* MAGIC SAUCE FOR ALL SCREENS: 
+     Min size: 4rem (Mobile)
+     Preferred: 18vw (Scales perfectly on Laptops/PCs)
+     Max size: 25rem (Keeps it crisp on 4K TVs) */
+  font-size: clamp(4rem, 18vw, 25rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums; /* Critical: Stops numbers from shifting left/right as seconds tick */
+  text-shadow: 0 10px 30px rgba(0,0,0,0.3); /* Subtle depth */
 }
 
-/* WEATHER */
-
+/* ==========================================================================
+   5. WEATHER & AQI WIDGET
+   ========================================================================== */
 .weather-line {
-
-font-size: 24px;
-
-display: flex;
-
-gap: 25px;
-
-flex-wrap: wrap;
-
-justify-content: center;
-
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 3rem);
+  font-size: clamp(0.85rem, 1.5vw, 2rem);
+  color: var(--accent-color);
+  font-weight: 400;
+  
+  background: var(--glass-bg);
+  padding: clamp(0.8rem, 1.5vh, 2rem) clamp(1.5rem, 3vw, 4rem);
+  border-radius: 100px;
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-/* FOOTER */
+.weather-line span {
+  display: flex;
+  align-items: center;
+}
 
+/* Elegant bullet separators for larger screens */
+.weather-line span:not(:last-child)::after {
+  content: '•';
+  color: var(--subtext-color);
+  margin-left: clamp(1rem, 2vw, 3rem);
+  opacity: 0.4;
+}
+
+/* ==========================================================================
+   6. FOOTER
+   ========================================================================== */
 footer {
-
-padding: 10px;
-
-text-align: center;
-
-border-top: 1px solid currentColor;
-
+  padding: clamp(1rem, 2vh, 2.5rem);
+  text-align: center;
+  font-size: clamp(0.7rem, 1vw, 1.2rem);
+  color: var(--subtext-color);
+  font-weight: 300;
+  letter-spacing: 2px;
+  opacity: 0.6;
 }
 
-/* MOBILE */
+/* ==========================================================================
+   7. MOBILE-SPECIFIC TWEAKS
+   ========================================================================== */
+@media (max-width: 600px) {
+  .weather-line {
+    border-radius: 20px; /* Switch to rounded rectangle instead of pill */
+    gap: 0.8rem;
+    padding: 1rem;
+    flex-direction: column; /* Stack weather items vertically on phones */
+    width: 90%;
+  }
 
-@media(max-width:768px){
-
-#time {
-
-font-size: 80px;
-
-}
-
-.date-line {
-
-font-size: 20px;
-
-}
-
-.weather-line {
-
-font-size: 16px;
-
-}
-
+  /* Hide bullet points when stacked vertically */
+  .weather-line span:not(:last-child)::after {
+    display: none; 
+  }
+  
+  #time {
+    letter-spacing: -2px;
+  }
 }
