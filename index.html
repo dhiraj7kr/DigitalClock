@@ -5,37 +5,42 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>iClock</title>
+<title>iClock • Professional Clock Dashboard</title>
 
-<link rel="icon" href="./assets/clock-icon.png">
+<link rel="icon" href="assets/clock-icon.png">
 
-<link rel="manifest" href="manifest.json">
-
+<!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<!-- Icons -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <link rel="stylesheet" href="styles.css">
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
 </head>
 
-<body class="dark-mode">
+<body>
 
 <header>
 
-<div class="logo">iClock</div>
+<div class="logo">
+<i class="fa-solid fa-clock"></i>
+iClock
+</div>
 
 <div class="controls">
 
-<i id="modeToggle" class="fas fa-moon"></i>
-
-<button id="fullscreenToggle">
-<i class="fas fa-expand"></i>
+<button id="modeToggle" title="Toggle theme">
+<i class="fa-solid fa-moon"></i>
 </button>
 
-<button id="formatToggle">
+<button id="formatToggle" title="Toggle 12/24 hour">
 24H
+</button>
+
+<button id="fullscreenToggle" title="Fullscreen">
+<i class="fa-solid fa-expand"></i>
 </button>
 
 </div>
@@ -44,9 +49,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
 
 <main>
 
-<div class="clock-container">
+<div class="clock-card">
 
-<div class="day-date">
+<div class="date-section">
 
 <div id="day"></div>
 
@@ -56,17 +61,32 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
 
 <div id="time"></div>
 
-<div class="weather">
+<div class="weather-section">
 
-<div id="location"></div>
+<div class="weather-row">
+<i class="fa-solid fa-location-dot"></i>
+<span id="location">Loading...</span>
+</div>
 
-<div id="temp"></div>
+<div class="weather-row">
+<i class="fa-solid fa-temperature-half"></i>
+<span id="temp"></span>
+</div>
 
-<div id="condition"></div>
+<div class="weather-row">
+<i class="fa-solid fa-cloud"></i>
+<span id="condition"></span>
+</div>
 
-<div id="wind"></div>
+<div class="weather-row">
+<i class="fa-solid fa-wind"></i>
+<span id="wind"></span>
+</div>
 
-<div id="aqi"></div>
+<div class="weather-row">
+<i class="fa-solid fa-smog"></i>
+<span id="aqi"></span>
+</div>
 
 </div>
 
@@ -76,7 +96,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
 
 <footer>
 
-© <span id="year"></span> iClock
+© <span id="year"></span> iClock • Professional Edition
 
 </footer>
 
