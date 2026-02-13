@@ -12,8 +12,18 @@
 </head>
 <body>
 
+  <div id="day-progress-bar">
+    <div id="day-progress-fill"></div>
+  </div>
+
   <header>
-    <div class="logo">iClock</div>
+    <div class="logo-area">
+      <div class="logo">iClock</div>
+      <div id="battery-status" title="Device Battery">
+        <i class="fa-solid fa-battery-half"></i> --%
+      </div>
+    </div>
+    
     <div class="controls">
       <button id="modeToggle" aria-label="Toggle Theme"><i class="fa-solid fa-circle-half-stroke"></i></button>
       <button id="formatToggle" aria-label="Toggle 12/24 Hour Format">24H</button>
@@ -29,14 +39,23 @@
       </div>
       
       <div id="time"></div>
+
+      <div id="world-clocks" class="world-clocks"></div>
       
       <div class="weather-line">
         <span id="location" title="Click to change location">Loading location...</span>
         <span id="temp"></span>
         <span id="condition"></span>
+        <span id="humidity"></span>
+        <span id="sun-time"></span>
         <span id="wind"></span>
         <span id="aqi"></span>
       </div>
+
+      <div class="year-progress-wrapper">
+        <div id="year-grid" class="year-grid" title="Year Progress"></div>
+      </div>
+      
     </div>
   </main>
 
