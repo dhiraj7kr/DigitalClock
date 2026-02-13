@@ -31,7 +31,7 @@
       <div id="time"></div>
       
       <div class="weather-line">
-        <span id="location">Loading location...</span>
+        <span id="location" title="Click to change location">Loading location...</span>
         <span id="temp"></span>
         <span id="condition"></span>
         <span id="wind"></span>
@@ -51,13 +51,14 @@
 
   <div id="locationModal" class="modal hidden">
     <div class="modal-content">
-      <h3>Location Required</h3>
-      <p>We couldn't detect your location automatically. Please enter your city to get local weather and AQI.</p>
+      <h3>Set Location</h3>
+      <p>Enter your city to get local weather and accurate air quality data.</p>
       <div class="input-group">
         <input type="text" id="cityInput" placeholder="e.g., London, UK or New York, US" autocomplete="off">
         <button id="submitCity">Search</button>
       </div>
       <p id="modalError" class="error-msg hidden">City not found. Please try again.</p>
+      <button id="closeModal" class="close-btn hidden">Cancel</button>
     </div>
   </div>
 
